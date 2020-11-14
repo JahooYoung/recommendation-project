@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<!--
+       Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License. See accompanying LICENSE file.
+-->
+
+<!-- Put site-specific property overrides in this file. -->
+
+<configuration>
+    <property>        <!--文件在HDFS中的副本数-->
+        <name>dfs.replication</name>
+        <value>2</value>
+    </property>
+    <property>        <!--不检查用户权限-->
+        <name>dfs.permissions.enabled</name>
+        <value>false</value>
+    </property>
+    <property>        <!--NameNode节点数据在本地文件系统中的存储位置-->
+        <name>dfs.namenode.name.dir</name>
+        <value>file:/data/hadoop/dfs/name</value>
+    </property>
+    <property>        <!--DataNode节点数据在本地文件系统中的存储位置-->
+        <name>dfs.datanode.data.dir</name>
+        <value>file:/data/hadoop/dfs/data</value>
+    </property>
+    <property>        <!--JournalNode节点数据在本地文件系统中的存储位置-->
+        <name>dfs.journalnode.edits.dir</name>
+        <value>/data/hadoop/dfs/journal</value>
+    </property>
+    <property>        <!--打开WebHDFS,WEBHDFS是一个基于REST的接口。可以查看文件系统，以及文件的内容 -->
+        <name>dfs.webhdfs.enabled</name>
+        <value>true</value>
+    </property>
+
+    <!-- nameservice的逻辑名称 -->
+    <property>
+        <name>dfs.nameservices</name>
+        <value>cluster</value>
+    </property>
+    <!-- namenode的逻辑名称 -->
+    <property>
+        <name>dfs.ha.namenodes.cluster</name>
+        <!-- <value>namenode1</value> -->
+        <value>namenode1,namenode2</value>
+    </property>
+    <!-- namenode1的rpc监听地址 -->
+    <property>
+        <name>dfs.namenode.rpc-address.cluster.namenode1</name>
+        <value>node3:8020</value>
+    </property>
+    <!-- namenode2的rpc监听地址 -->
+    <property>
+        <name>dfs.namenode.rpc-address.cluster.namenode2</name>
+        <value>node4:8020</value>
+    </property>
+    <!-- namenode1的http地址 -->
+    <property>
+        <name>dfs.namenode.http-address.cluster.namenode1</name>
+        <value>node3:9870</value>
+    </property>
+    <!-- namenode2的http地址 -->
+    <property>
+        <name>dfs.namenode.http-address.cluster.namenode2</name>
+        <value>node4:9870</value>
+    </property>
+    <!-- journal的uri地址 -->
+    <property>
+        <name>dfs.datanode.shared.edits.dir</name>
+        <value>qjournal://node2:8485;node3:8485;node4:8485/cluster</value>
+    </property>
+    <!-- namenode故障转移的代理类 -->
+    <property>
+        <name>dfs.client.failover.proxy.provider.cluster</name>
+        <value>org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider</value>
+    </property>
+    <!-- 隔离方法 -->
+    <property>
+        <name>dfs.ha.fencing.methods</name>
+        <value>sshfence</value>
+    </property>
+    <!-- ssh密钥 -->
+    <property>
+        <name>dfs.ha.fencing.ssh.private-key-files</name>
+        <value>/root/.ssh/id_rsa</value>
+    </property>
+    <!-- namenode自动故障转移 -->
+    <property>
+        <name>dfs.ha.automatic-failover.enabled</name>
+        <value>true</value>
+    </property>
+</configuration>

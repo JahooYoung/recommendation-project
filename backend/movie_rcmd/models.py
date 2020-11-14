@@ -1,4 +1,10 @@
-from django.db import models
+from django.conf import settings
+
+if settings.IS_PRODUCTION:
+    from djongo import models
+else:
+    from django.db import models
+
 
 # Create your models here.
 

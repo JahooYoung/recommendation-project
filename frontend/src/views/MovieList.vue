@@ -181,6 +181,7 @@ export default {
       }
     },
     async toggleItemDetails(item, index, event) {
+      await this.needLogin()
       try {
         const res = await this.axios.get(`/api/movies/${item.id}/`)
         item.rating = res.data.rated ? res.data.rating : { rating: 0 }

@@ -1,0 +1,91 @@
+version: "3"
+
+services:
+  node1:
+    container_name: node1
+    image: rcmd_image
+    restart: always
+    stdin_open: true
+    tty: true
+    shm_size: 2G
+    privileged: true
+    environment:
+      - NODE_ID=1
+    ports:
+      - "18000:8000"
+    hostname: node1
+    networks:
+      cloud_net:
+        ipv4_address: 172.18.0.11
+    extra_hosts:
+      - "node2:172.18.0.12"
+      - "node3:172.18.0.13"
+      - "node4:172.18.0.14"
+    command: /bin/bash -c '/usr/sbin/sshd & /bin/bash'
+  node2:
+    container_name: node2
+    image: rcmd_image
+    restart: always
+    stdin_open: true
+    tty: true
+    shm_size: 2G
+    privileged: true
+    environment:
+      - NODE_ID=2
+    hostname: node2
+    networks:
+      cloud_net:
+        ipv4_address: 172.18.0.12
+    extra_hosts:
+      - "node1:172.18.0.11"
+      - "node3:172.18.0.13"
+      - "node4:172.18.0.14"
+    command: /bin/bash -c '/usr/sbin/sshd & /bin/bash'
+  node3:
+    container_name: node3
+    image: rcmd_image
+    restart: always
+    stdin_open: true
+    tty: true
+    shm_size: 2G
+    privileged: true
+    environment:
+      - NODE_ID=3
+    ports:
+      - "19870:9870"
+      - "18088:8088"
+    hostname: node3
+    networks:
+      cloud_net:
+        ipv4_address: 172.18.0.13
+    extra_hosts:
+      - "node1:172.18.0.11"
+      - "node2:172.18.0.12"
+      - "node4:172.18.0.14"
+    command: /bin/bash -c '/usr/sbin/sshd -D & /bin/bash'
+  node4:
+    container_name: node4
+    image: rcmd_image
+    restart: always
+    stdin_open: true
+    tty: true
+    shm_size: 2G
+    privileged: true
+    environment:
+      - NODE_ID=4
+    hostname: node4
+    networks:
+      cloud_net:
+        ipv4_address: 172.18.0.14
+    extra_hosts:
+      - "node1:172.18.0.11"
+      - "node2:172.18.0.12"
+      - "node3:172.18.0.13"
+    command: /bin/bash -c '/usr/sbin/sshd -D & /bin/bash'
+
+networks:
+  cloud_net:
+    name: cloud_net
+    ipam:
+      config:
+        - subnet: 172.18.0.0/16

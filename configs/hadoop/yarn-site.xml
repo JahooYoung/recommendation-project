@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property>        <!--NodeManager运行的附属服务，需要配置为mapreduce_shuffle，才能运行MapReduce程序 -->
+        <name>yarn.nodemanager.aux-services</name>
+        <value>mapreduce_shuffle</value>
+    </property>
+
+    <!-- 开启HA模式 -->
+    <property>
+        <name>yarn.resourcemanager.ha.enabled</name>
+        <value>true</value>
+    </property>
+    <!-- 集群名称 -->
+    <property>
+        <name>yarn.resourcemanager.cluster-id</name>
+        <value>cluster-yarn</value>
+    </property>
+    <!-- resouremanager名称 -->
+    <property>
+        <name>yarn.resourcemanager.ha.rm-ids</name>
+        <!-- <value>resourcemanager1</value> -->
+        <value>resourcemanager1,resourcemanager2</value>
+    </property>
+    <!-- resourcemanager1对应服务器 -->
+    <property>
+        <name>yarn.resourcemanager.hostname.resourcemanager1</name>
+        <value>node3</value>
+    </property>
+    <!-- <property>
+            <name>yarn.resourcemanager.address.resourcemanager1</name>
+            <value>node2:8032</value>
+    </property> -->
+    <!-- resourcemanager2对应服务器 -->
+    <property>
+        <name>yarn.resourcemanager.hostname.resourcemanager2</name>
+        <value>node4</value>
+    </property>
+    <!-- 自动恢复 -->
+    <property>
+        <name>yarn.resourcemanager.recovery.enabled</name>
+        <value>true</value>
+    </property>
+    <!-- 设置为zookeeper模式 -->
+    <property>
+        <name>yarn.resourcemanager.store.class</name>
+        <value>org.apache.hadoop.yarn.server.resourcemanager.recovery.ZKRMStateStore</value>
+    </property>
+    <!-- zookeeper配置 -->
+    <property>
+        <name>hadoop.zk.address</name>
+        <value>node2:2181,node3:2181,node4:2181</value>
+    </property>
+</configuration>

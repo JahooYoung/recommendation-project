@@ -10,7 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+import os
 from pathlib import Path
+
+IS_PRODUCTION = os.environ.get('NODE_ID') is not None
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '8rpji57afl&7+^mrsl00@ill6xfn6%m^b1rng68f=odne8z*3-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = not IS_PRODUCTION
 
 ALLOWED_HOSTS = []
 
@@ -85,6 +88,11 @@ WSGI_APPLICATION = 'recommendation_project.wsgi.application'
 
 DATABASES = {
     'default': {
+        'ENGINE': 'djongo',
+        'NAME': 'rcmd_db',
+        # 'HOST': 'mongorepl/node1:27017',
+        'HOST': 'mongorepl/node1:27017,node2:27017,node3:27017,node4:27017',
+    } if IS_PRODUCTION else {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
