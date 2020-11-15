@@ -52,7 +52,7 @@ RUN mkdir -p /data/hadoop/dfs/{data,name,journal} && \
 ADD ./tools/spark-2.4.7-bin-hadoop2.7.tgz /usr/local
 ENV SPARK_HOME /usr/local/spark-2.4.7-bin-hadoop2.7
 ENV HADOOP_CONF_DIR $HADOOP_HOME/etc/hadoop
-# COPY ./tools/*.jar $SPARK_HOME/jars/
+COPY ./tools/*.jar $SPARK_HOME/jars/
 
 # Zookeeper
 ADD ./tools/apache-zookeeper-3.6.2-bin.tar.gz /usr/local
