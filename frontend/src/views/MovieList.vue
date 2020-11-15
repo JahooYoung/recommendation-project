@@ -181,6 +181,10 @@ export default {
       }
     },
     async toggleItemDetails(item, index, event) {
+      if (item._showDetails) {
+        item._showDetails = false
+        return
+      }
       await this.needLogin()
       try {
         const res = await this.axios.get(`/api/movies/${item.id}/`)
@@ -210,7 +214,7 @@ export default {
       } catch (err) {
         console.log(err)
       }
-      item._showDetails = !item._showDetails
+      item._showDetails = true
     },
   }
 }

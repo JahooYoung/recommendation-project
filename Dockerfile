@@ -5,7 +5,7 @@ LABEL Discription="Movie Recommendation Project" version="1.0"
 
 # 安装必备的软件包
 RUN yum -y install dnf yum-utils net-tools openssh-server openssh-clients \
-        which less python38 python38-devel gcc zip
+        which less python3 python3-devel gcc zip
 COPY ./configs/repos/* /etc/yum.repos.d/
 RUN yum install -y nginx mongodb-org
 RUN dnf module install -y nodejs:12
@@ -30,7 +30,7 @@ COPY ./configs/ssh_config /etc/ssh/ssh_config
 
 # JDK 增加JAVA_HOME环境变量
 ADD ./tools/jdk-8u271-linux-x64.tar.gz /usr/local/
-ENV JAVA_HOME /usr/local/jdk1.8.0_271/
+ENV JAVA_HOME /usr/local/jdk1.8.0_271
 ENV JRE_HOME=$JAVA_HOME/jre
 ENV CLASSPATH .:$JAVA_HOME/lib:$JRE_HOME/lib
 # ENV CLASSPATH $JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
@@ -47,10 +47,12 @@ RUN mkdir -p /data/hadoop/dfs/{data,name,journal} && \
 # RUN chmod 700 $HADOOP_HOME/*.sh $HADOOP_HOME/sbin/*.sh
 
 # Spark
-ADD ./tools/spark-3.0.1-bin-hadoop3.2.tgz /usr/local
-ENV SPARK_HOME /usr/local/spark-3.0.1-bin-hadoop3.2
+# ADD ./tools/spark-3.0.1-bin-hadoop3.2.tgz /usr/local
+# ENV SPARK_HOME /usr/local/spark-3.0.1-bin-hadoop3.2
+ADD ./tools/spark-2.4.7-bin-hadoop2.7.tgz /usr/local
+ENV SPARK_HOME /usr/local/spark-2.4.7-bin-hadoop2.7
 ENV HADOOP_CONF_DIR $HADOOP_HOME/etc/hadoop
-COPY ./tools/mongo-spark-connector_2.12-3.0.0.jar $SPARK_HOME/jars/
+# COPY ./tools/*.jar $SPARK_HOME/jars/
 
 # Zookeeper
 ADD ./tools/apache-zookeeper-3.6.2-bin.tar.gz /usr/local
@@ -58,8 +60,12 @@ ENV ZOOKEEPER_HOME /usr/local/apache-zookeeper-3.6.2-bin
 COPY ./configs/zoo.cfg $ZOOKEEPER_HOME/conf/zoo.cfg
 RUN mkdir -p /usr/local/apache-zookeeper-3.6.2-bin/{data,logs}
 
+# Scala
+ADD ./tools/scala-2.11.12.tgz /usr/local
+ENV SCALA_HOME /usr/local/scala-2.11.12
+
 #将环境变量添加到系统变量中
-ENV PATH $ZOOKEEPER_HOME/bin:$SPARK_HOME/bin:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$JAVA_HOME/bin:$PATH
+ENV PATH $SCALA_HOME/bin:$ZOOKEEPER_HOME/bin:$SPARK_HOME/bin:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$JAVA_HOME/bin:$PATH
 
 # MongoDB
 RUN mkdir -p /data/mongodb/db
@@ -84,6 +90,7 @@ COPY ./requirements.txt $PROJECT_ROOT/
 
 # 启动脚本
 COPY ./scripts/* /usr/local/bin/
+RUN chmod +x /usr/local/bin/*.sh $HADOOP_HOME/sbin/*.sh
 
 #启动容器时执行的脚本文件
 # CMD ["/usr/sbin/sshd","-D"]

@@ -16,11 +16,11 @@ services:
     hostname: node1
     networks:
       cloud_net:
-        ipv4_address: 172.18.0.11
+        ipv4_address: 172.48.0.11
     extra_hosts:
-      - "node2:172.18.0.12"
-      - "node3:172.18.0.13"
-      - "node4:172.18.0.14"
+      - "node2:172.48.0.12"
+      - "node3:172.48.0.13"
+      - "node4:172.48.0.14"
     command: /bin/bash -c '/usr/sbin/sshd & /bin/bash'
   node2:
     container_name: node2
@@ -35,11 +35,11 @@ services:
     hostname: node2
     networks:
       cloud_net:
-        ipv4_address: 172.18.0.12
+        ipv4_address: 172.48.0.12
     extra_hosts:
-      - "node1:172.18.0.11"
-      - "node3:172.18.0.13"
-      - "node4:172.18.0.14"
+      - "node1:172.48.0.11"
+      - "node3:172.48.0.13"
+      - "node4:172.48.0.14"
     command: /bin/bash -c '/usr/sbin/sshd & /bin/bash'
   node3:
     container_name: node3
@@ -57,11 +57,11 @@ services:
     hostname: node3
     networks:
       cloud_net:
-        ipv4_address: 172.18.0.13
+        ipv4_address: 172.48.0.13
     extra_hosts:
-      - "node1:172.18.0.11"
-      - "node2:172.18.0.12"
-      - "node4:172.18.0.14"
+      - "node1:172.48.0.11"
+      - "node2:172.48.0.12"
+      - "node4:172.48.0.14"
     command: /bin/bash -c '/usr/sbin/sshd -D & /bin/bash'
   node4:
     container_name: node4
@@ -76,11 +76,11 @@ services:
     hostname: node4
     networks:
       cloud_net:
-        ipv4_address: 172.18.0.14
+        ipv4_address: 172.48.0.14
     extra_hosts:
-      - "node1:172.18.0.11"
-      - "node2:172.18.0.12"
-      - "node3:172.18.0.13"
+      - "node1:172.48.0.11"
+      - "node2:172.48.0.12"
+      - "node3:172.48.0.13"
     command: /bin/bash -c '/usr/sbin/sshd -D & /bin/bash'
 
 networks:
@@ -88,4 +88,4 @@ networks:
     name: cloud_net
     ipam:
       config:
-        - subnet: 172.18.0.0/16
+        - subnet: 172.48.0.0/16
