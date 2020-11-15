@@ -19,8 +19,9 @@ class RatingSerializer(serializers.ModelSerializer):
 class MovieRcmdSerializer(serializers.ModelSerializer):
     class Meta:
         model = MovieRcmd
-        fields = '__all__'
+        fields = ['id', 'movie']
         read_only_fields = ['id']
+        depth = 1
 
 
 class MovieSerializer(serializers.ModelSerializer):
@@ -29,8 +30,8 @@ class MovieSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Movie
-        fields = ['id', 'title', 'genres', 'imdb_id', 'mean_rating']
-        read_only_fields = ['id', 'title', 'genres', 'imdb_id', 'mean_rating']
+        fields = ['id', 'title', 'genres', 'imdb_id', 'mean_rating', 'total_rating']
+        read_only_fields = ['id', 'title', 'genres', 'imdb_id', 'mean_rating', 'total_rating']
         # depth = 1
 
     # @classmethod

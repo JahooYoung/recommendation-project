@@ -7,9 +7,8 @@ router = DefaultRouter()
 router.register('movies', views.MovieViewSet)
 router.register('ratings', views.RatingViewSet)
 router.register('movie-rcmds', views.MovieRcmdViewSet)
-# router.register('users', views.UserViewSet)
-# router.register('images', views.ImageViewSet)
 
 urlpatterns = [
-    path('', include(router.urls))
+    path('', include(router.urls)),
+    path('run-recommendation/', views.RunRecommendation.as_view())
 ]

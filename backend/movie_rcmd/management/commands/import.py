@@ -16,34 +16,18 @@ class Command(BaseCommand):
         dataset = Path(options['dataset'])
         movie_df = pd.read_csv(dataset / 'movies.csv')
         link_df = pd.read_csv(dataset / 'links.csv', usecols=['movieId', 'imdbId'])
-        mean_rating_df = pd.read_csv(dataset / 'ratings.csv', usecols=['userId', 'movieId', 'rating'])\
-            .groupby('movieId').mean()
-        movie_df = movie_df.merge(link_df, on='movieId').merge(mean_rating_df, on='movieId')
+        rating_df = pd.read_csv(dataset / 'ratings.csv', usecols=['userId', 'movieId', 'rating'])
+        mean_rating_df = rating_df.groupby('movieId').mean()
+        total_rating_df = rating_df.groupby('movieId').sum()
+        movie_df = movie_df.merge(link_df, on='movieId') \
+            .merge(mean_rating_df, on='movieId') \
+            .merge(total_rating_df, on='movieId', suffixes=('_mean', '_sum'))
         Movie.objects.all().delete()
         Movie.objects.bulk_create(
-            Movie(id=row.movieId, title=row.title, genres=row.genres,
-                imdb_id=row.imdbId, mean_rating=row.rating)
+            Movie(id=row.movieId, title=row.title, genres=row.genres, imdb_id=row.imdbId,
+                mean_rating=row.rating_mean, total_rating=row.rating_sum)
             # for row in tqdm(movie_df.itertuples(), desc='importing movies', total=movie_df.size)
             for row in movie_df.itertuples()
         )
-        # for row in tqdm(movie_df.itertuples(), desc='importing movies', total=movie_df.size):
-        #     # try:
-        #     movie = Movie.objects.get_or_create(pk=row.movieId)[0]
-        #     movie.title = row.title
-        #     movie.genres = row.genres
-        #     movie.imdb_id = row.imdbId
-        #     movie.tmdb_id = int(row.tmdbId) if not math.isnan(row.tmdbId) else None
-        #     movie.save()
-            # except Exception as e:
-            #     print(f'{row=}\n{movie=}')
-            #     raise e
-
-            # try:
-            #     poll = Movie.objects.get(pk=poll_id)
-            # except Poll.DoesNotExist:
-            #     raise CommandError('Poll "%s" does not exist' % dataset)
-
-            # poll.opened = False
-            # poll.save()
 
         self.stdout.write(self.style.SUCCESS('Successfully import "%s"' % dataset))

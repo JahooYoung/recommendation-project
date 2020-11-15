@@ -188,7 +188,7 @@ export default {
       await this.needLogin()
       try {
         const res = await this.axios.get(`/api/movies/${item.id}/`)
-        item.rating = res.data.rated ? res.data.rating : { rating: 0 }
+        item.rating = res.data.rating || { rating: 0 }
         this.isBusy = false
         item.updateRating = async (newRating) => {
           // console.log(item, newRating)

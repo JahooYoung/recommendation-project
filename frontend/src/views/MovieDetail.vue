@@ -1,15 +1,22 @@
 <template>
-  <!-- <Editor ref="editor" /> -->
-  <div>
-    <h1>
-      aaa
-    </h1>
-  </div>
+  <b-container>
+    <b-row>
+      <b-col align="center">
+        <h1>
+          {{ movie.title }}
+        </h1>
+        <b-link
+          :href="`https://www.imdb.com/title/tt${String(movie.imdbId).padStart(7, '0')}/`"
+          target="_blank"
+        >
+          {{ movie.imdbId }}
+        </b-link>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
-// @ is an alias to /src
-// import Editor from '@/components/Editor.vue'
 
 export default {
   name: 'NoteEdit',
@@ -21,11 +28,25 @@ export default {
       movie: null,
     }
   },
+  created () {
+    this.fetchData()
+  },
+  watch: {
+    $route() {
+      this.fetchData()
+    }
+  },
   // beforeRouteUpdate(...args) {
   //   this.$refs.editor.beforeRouteUpdate(...args)
   // },
   // beforeRouteLeave(...args) {
   //   this.$refs.editor.beforeRouteLeave(...args)
   // }
+  methods: {
+    async fetchData() {
+      const res = await this.axios.get(`/api/movies/${this.$route.params.id}/`)
+      this.movie = res.data
+    }
+  }
 }
 </script>

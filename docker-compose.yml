@@ -12,6 +12,7 @@ services:
     environment:
       - NODE_ID=1
     ports:
+      - "31122:22"
       - "18000:8000"
     hostname: node1
     networks:

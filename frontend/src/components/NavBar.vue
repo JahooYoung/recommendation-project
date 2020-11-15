@@ -23,6 +23,9 @@
           <b-nav-item to="/movies">
             {{ $t(`Movie`) }}
           </b-nav-item>
+          <b-nav-item @click="runRecommendation">
+            {{ $t(`Run Recommendation`) }}
+          </b-nav-item>
         </b-navbar-nav>
 
         <!-- Right aligned nav items -->
@@ -135,6 +138,21 @@ export default {
     },
     changeLocale (lang) {
       loadLanguageAsync(lang)
+    },
+    async runRecommendation() {
+      await this.axios.post(`/api/run-recommendation/`)
+      const handler = setInterval(async () => {
+        const res = await this.axios.get(`/api/run-recommendation/`)
+        if (res.data.isEnded) {
+          clearInterval(handler)
+          this.$bvToast.toast(this.$t('Recommendation updated!'), {
+            title: this.$t('Yahoo!'),
+            variant: 'success',
+            autoHideDelay: 4000,
+            solid: true
+          })
+        }
+      }, 2000)
     }
   }
 }

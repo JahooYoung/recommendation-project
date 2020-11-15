@@ -1,7 +1,11 @@
 /venv/
 __pycache__/
 
+.vscode/
+
 db.sqlite3
 
 tools/*.gz
 tools/*.tgz
+
+/spark-3.0.1-bin-hadoop3.2
