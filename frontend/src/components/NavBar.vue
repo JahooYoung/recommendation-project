@@ -141,8 +141,19 @@ export default {
     },
     async runRecommendation() {
       await this.axios.post(`/api/run-recommendation/`)
+      this.$bvToast.toast(this.$t('Updating recommendation!'), {
+        title: this.$t('Received!'),
+        variant: 'primary',
+        autoHideDelay: 2000,
+        solid: true
+      })
       const handler = setInterval(async () => {
-        const res = await this.axios.get(`/api/run-recommendation/`)
+        let res
+        try {
+          res = await this.axios.get(`/api/run-recommendation/`)
+        } catch (e) {
+          console.log(e)
+        }
         if (res.data.isEnded) {
           clearInterval(handler)
           this.$bvToast.toast(this.$t('Recommendation updated!'), {
@@ -152,7 +163,7 @@ export default {
             solid: true
           })
         }
-      }, 2000)
+      }, 4000)
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <b-container>
     <b-row>
-      <b-col align="center">
+      <b-col v-if="movie" align="center">
         <h1>
           {{ movie.title }}
         </h1>

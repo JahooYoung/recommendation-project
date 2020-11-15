@@ -14,6 +14,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         dataset = Path(options['dataset'])
+        self.stdout.write('importing "%s"' % dataset)
+
         movie_df = pd.read_csv(dataset / 'movies.csv')
         link_df = pd.read_csv(dataset / 'links.csv', usecols=['movieId', 'imdbId'])
         rating_df = pd.read_csv(dataset / 'ratings.csv', usecols=['userId', 'movieId', 'rating'])
@@ -30,4 +32,4 @@ class Command(BaseCommand):
             for row in movie_df.itertuples()
         )
 
-        self.stdout.write(self.style.SUCCESS('Successfully import "%s"' % dataset))
+        self.stdout.write(self.style.SUCCESS('Successfully imported "%s"' % dataset))

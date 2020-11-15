@@ -1,7 +1,7 @@
 #!/bin/bash
 
-IMAGE_NAME="rcmd_image"
-echo building image ${IMAGE_NAME}
+IMAGE_NAME="yjh_rcmd_image"
+echo "building image ${IMAGE_NAME}"
 docker build -t="${IMAGE_NAME}" .
 
 docker-compose up -d

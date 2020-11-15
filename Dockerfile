@@ -77,10 +77,12 @@ COPY ./configs/nginx.conf /etc/nginx/
 ENV PROJECT_ROOT /root/rcmd_project
 
 # 数据集等文件
+# ENV DATASET ml-latest-small
+ENV DATASET ml-25m
 RUN mkdir -p $PROJECT_ROOT/data
-COPY ./ml-latest-small.zip /tmp/
-RUN unzip /tmp/ml-latest-small.zip -d $PROJECT_ROOT/data/
-RUN rm /tmp/ml-latest-small.zip
+COPY ./datasets/$DATASET.zip /tmp/
+RUN unzip /tmp/$DATASET.zip -d $PROJECT_ROOT/data/
+RUN rm /tmp/$DATASET.zip
 
 # 前端和后端文件
 RUN mkdir -p $PROJECT_ROOT

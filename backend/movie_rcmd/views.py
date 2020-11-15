@@ -88,24 +88,26 @@ class MovieRcmdViewSet(viewsets.ModelViewSet):
 #         return Response(data)
 
 RCMD_PROG = os.path.join(os.path.dirname(__file__), 'recommend.py')
+pid = None
 
 class RunRecommendation(views.APIView):
     permission_classes = [
         permissions.IsAuthenticated,
     ]
-    pid = None
 
     def get(self, request, *args, **kwargs):
-        if self.pid is None:
+        global pid
+        if pid is None:
             return Response(status=400)
-        _, status = os.waitpid(self.pid, os.WNOHANG)
-        is_ended = os.WIFSIGNALED(status) or os.WIFEXITED(status)
+        pid_, status = os.waitpid(pid, os.WNOHANG)
+        is_ended = pid_ != 0 and (os.WIFSIGNALED(status) or os.WIFEXITED(status))
         if is_ended:
-            self.pid = None
+            pid = None
         return Response({'is_ended': is_ended})
 
     def post(self, request, *args, **kwargs):
-        if self.pid is not None:
+        global pid
+        if pid is not None:
             return Response(status=400)
-        self.pid = os.spawnvp(os.P_NOWAIT, 'python', [RCMD_PROG])
+        pid = os.spawnvpe(os.P_NOWAIT, 'python', ['python', RCMD_PROG], os.environ)
         return Response(status=201)
