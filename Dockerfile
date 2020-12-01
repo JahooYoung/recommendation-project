@@ -64,8 +64,13 @@ RUN mkdir -p /usr/local/apache-zookeeper-3.6.2-bin/{data,logs}
 ADD ./tools/scala-2.11.12.tgz /usr/local
 ENV SCALA_HOME /usr/local/scala-2.11.12
 
+# Kafka
+ADD ./tools/kafka_2.11-2.4.1.tgz /usr/local
+ENV KAFKA_HOME /usr/local/kafka_2.11-2.4.1
+COPY ./configs/kafka/* $KAFKA_HOME/config/
+
 #将环境变量添加到系统变量中
-ENV PATH $SCALA_HOME/bin:$ZOOKEEPER_HOME/bin:$SPARK_HOME/bin:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$JAVA_HOME/bin:$PATH
+ENV PATH $KAFKA_HOME/bin:$SCALA_HOME/bin:$ZOOKEEPER_HOME/bin:$SPARK_HOME/bin:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$JAVA_HOME/bin:$PATH
 
 # MongoDB
 RUN mkdir -p /data/mongodb/db
@@ -77,8 +82,8 @@ COPY ./configs/nginx.conf /etc/nginx/
 ENV PROJECT_ROOT /root/rcmd_project
 
 # 数据集等文件
-# ENV DATASET ml-latest-small
-ENV DATASET ml-25m
+ENV DATASET ml-latest-small
+# ENV DATASET ml-25m
 RUN mkdir -p $PROJECT_ROOT/data
 COPY ./datasets/$DATASET.zip /tmp/
 RUN unzip /tmp/$DATASET.zip -d $PROJECT_ROOT/data/

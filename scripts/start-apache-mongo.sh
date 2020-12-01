@@ -9,7 +9,19 @@ if [[ $NODE_ID == "3" ]]; then
 fi
 
 if [[ $NODE_ID != "1" ]]; then
+    echo "==== start hdfs journal node ===="
     hdfs --daemon start journalnode
+fi
+
+if [[ $NODE_ID != "4" ]]; then
+    echo "==== start kafka ===="
+    PROPS=$KAFKA_HOME/config/server.properties
+    sed -ri "s/\{NODE_ID\}/$NODE_ID/" $PROPS
+    kafka-server-start.sh -daemon $PROPS
+    if [[ $NODE_ID == "2" ]]; then
+        # node2 is the last node to start
+        kafka-topics.sh --bootstrap-server node1:9092,node2:9092,node3:9092 --create --replication-factor 3 --partitions 1 --topic exlink
+    fi
 fi
 
 # if [[ $NODE_ID == "3" ]]; then
