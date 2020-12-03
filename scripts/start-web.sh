@@ -35,6 +35,10 @@ if [[ $NODE_ID == "1" ]]; then
     python manage.py migrate
     python manage.py import ../data/$DATASET
     uwsgi --ini uwsgi.ini
+
+    echo "==== start crontab ===="
+    crond
+    echo -e 'i*/10   *    *    *    *    bash /root/rcmd_project/backend/run_rcmd.sh > /tmp/run_rcmd.log 2>&1\x1B:wq' | crontab -e
 fi
 
 if [[ $NODE_ID == "1" ]]; then

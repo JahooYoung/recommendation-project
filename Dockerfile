@@ -99,5 +99,7 @@ COPY ./requirements.txt $PROJECT_ROOT/
 COPY ./scripts/* /usr/local/bin/
 RUN chmod +x /usr/local/bin/*.sh $HADOOP_HOME/sbin/*.sh
 
+RUN yum -y install crontabs
+
 #启动容器时执行的脚本文件
 # CMD ["/usr/sbin/sshd","-D"]

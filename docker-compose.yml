@@ -16,7 +16,7 @@ services:
       - "31100:8000"  # node1 nginx
     hostname: node1
     networks:
-      cloud_net:
+      yjh_rcmd_net:
         ipv4_address: "${SUBNET:-172.48}.0.11"
     extra_hosts:
       - "node2:${SUBNET:-172.48}.0.12"
@@ -36,7 +36,7 @@ services:
       - NODE_ID=2
     hostname: node2
     networks:
-      cloud_net:
+      yjh_rcmd_net:
         ipv4_address: "${SUBNET:-172.48}.0.12"
     extra_hosts:
       - "node1:${SUBNET:-172.48}.0.11"
@@ -59,7 +59,7 @@ services:
       - "31088:8088"  # hdfs
     hostname: node3
     networks:
-      cloud_net:
+      yjh_rcmd_net:
         ipv4_address: "${SUBNET:-172.48}.0.13"
     extra_hosts:
       - "node1:${SUBNET:-172.48}.0.11"
@@ -82,7 +82,7 @@ services:
       - "31089:8088"  # hdfs
     hostname: node4
     networks:
-      cloud_net:
+      yjh_rcmd_net:
         ipv4_address: "${SUBNET:-172.48}.0.14"
     extra_hosts:
       - "node1:${SUBNET:-172.48}.0.11"
@@ -91,8 +91,8 @@ services:
     command: /bin/bash -c '/usr/sbin/sshd -D & /bin/bash'
 
 networks:
-  cloud_net:
-    name: cloud_net
+  yjh_rcmd_net:
+    name: yjh_rcmd_net
     ipam:
       config:
         - subnet: "${SUBNET:-172.48}.0.0/16"
