@@ -27,6 +27,7 @@
               <b-button
                 :to="`/movies/${movie.movie.id}`"
                 variant="primary"
+                @click="send_rcmd_click"
               >
                 See details
               </b-button>
@@ -250,6 +251,11 @@ export default {
     openLink(movie) {
       const url = `https://www.imdb.com/title/tt${String(movie.imdbId).padStart(7, '0')}/`
       window.open(url, '_blank')
+    },
+    async send_rcmd_click() {
+      await this.axios.post('/api/kafka/', {
+        is_rcmd: true
+      })
     }
   }
 }

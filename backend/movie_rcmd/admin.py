@@ -16,3 +16,4 @@ from .models import *
 admin.site.register(Movie)
 admin.site.register(Rating)
 admin.site.register(MovieRcmd)
+admin.site.register(RcmdStat)

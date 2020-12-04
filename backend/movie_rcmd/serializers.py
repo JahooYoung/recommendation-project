@@ -8,6 +8,12 @@ from .models import *
 #         model = User
 #         fields = ['id', 'username']
 
+class RcmdStatSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RcmdStat
+        fields = '__all__'
+        read_only_fields = ['timestamp', 'rcmd_click_num']
+
 
 class RatingSerializer(serializers.ModelSerializer):
     class Meta:

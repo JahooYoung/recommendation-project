@@ -41,3 +41,11 @@ class MovieRcmd(models.Model):
     user = models.ForeignKey('auth.User', related_name='movie_rcmd', on_delete=models.CASCADE)
     movie = models.ForeignKey(Movie, related_name='+', on_delete=models.CASCADE)
     rating = models.FloatField()
+
+
+class RcmdStat(models.Model):
+    timestamp = models.IntegerField(primary_key=True)
+    rcmd_click_num = models.IntegerField()
+
+    class Meta:
+        ordering = ('-timestamp',)

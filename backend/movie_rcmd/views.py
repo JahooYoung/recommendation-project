@@ -3,6 +3,7 @@ from django.http import Http404, HttpResponse, FileResponse
 from rest_framework import viewsets, permissions, filters, generics, views
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
+from kafka import KafkaProducer
 from .models import *
 from .serializers import *
 
@@ -111,3 +112,23 @@ class RunRecommendation(views.APIView):
             return Response(status=400)
         pid = os.spawnvpe(os.P_NOWAIT, 'python', ['python', RCMD_PROG], os.environ)
         return Response(status=201)
+
+
+kafka_producer = KafkaProducer(bootstrap_servers='node1:9092,node2:9092,node3:9092')
+
+class KafkaForward(views.APIView):
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
+
+    def post(self, request, *args, **kwargs):
+        kafka_producer.send('exlink', request.body)
+        return Response(status=201)
+
+
+class RcmdStatViewSet(viewsets.ModelViewSet):
+    queryset = RcmdStat.objects.all()
+    serializer_class = RcmdStatSerializer
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]

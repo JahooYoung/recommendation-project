@@ -5,11 +5,21 @@
         <h1>
           {{ movie.title }}
         </h1>
+        <div>
+          <p> {{ movie.genres.replace(/\|/g, ',') }} </p>
+        </div>
+        <div>
+          <b-form-rating
+            :value="movie.meanRating"
+            readonly
+            class="mb-2"
+          />
+        </div>
         <b-link
           :href="`https://www.imdb.com/title/tt${String(movie.imdbId).padStart(7, '0')}/`"
           target="_blank"
         >
-          {{ movie.imdbId }}
+          Go to IMDB {{ movie.imdbId }}
         </b-link>
       </b-col>
     </b-row>

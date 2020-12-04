@@ -24,6 +24,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "MovieDetail" */ '@/views/MovieDetail.vue')
   },
   {
+    path: '/rcmd-stats',
+    name: 'RcmdStat',
+    component: () => import(/* webpackChunkName: "RcmdStats" */ '@/views/RcmdStat.vue')
+  },
+  {
     path: '*',
     component: () => import(/* webpackChunkName: "NotFound" */ '@/views/NotFound.vue')
   }

@@ -23,6 +23,9 @@
           <b-nav-item to="/movies">
             {{ $t(`Movie`) }}
           </b-nav-item>
+          <b-nav-item to="/rcmd-stats">
+            {{ $t(`Statistics`) }}
+          </b-nav-item>
           <b-nav-item @click="runRecommendation">
             {{ $t(`Run Recommendation`) }}
           </b-nav-item>
