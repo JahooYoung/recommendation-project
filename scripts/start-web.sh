@@ -38,7 +38,10 @@ if [[ $NODE_ID == "1" ]]; then
 
     echo "==== start crontab ===="
     crond
-    echo -e 'i*/10   *    *    *    *    bash /root/rcmd_project/backend/run_rcmd.sh > /tmp/run_rcmd.log 2>&1\x1B:wq' | crontab -e
+    echo -e 'i*/10   *    *    *    *    bash /root/rcmd_project/backend/run_rcmd.sh >/tmp/run_rcmd.log 2>&1\x1B:wq' | crontab -e
+
+    echo "==== start rcmd_stats ===="
+    nohup bash run_stats.sh &
 fi
 
 if [[ $NODE_ID == "1" ]]; then

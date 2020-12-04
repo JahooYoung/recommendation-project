@@ -99,12 +99,12 @@ export default {
       fields: [
         {
           key: 'timestamp',
-          formatter: t => (new Date(t)).toLocaleString(),
+          formatter: t => (new Date(t * 1000)).toLocaleString(),
           sortable: true
         },
         {
           key: 'rcmdClickNum',
-          label: 'Number of Recommendation Clicks',
+          label: 'Number of Recommendation Clicks In 5 Minutes',
           sortable: true
         },
         // { key: 'owner', sortable: true, formatter: x => x.username },

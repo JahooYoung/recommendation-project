@@ -20,6 +20,7 @@ if [[ $NODE_ID != "4" ]]; then
     kafka-server-start.sh -daemon $PROPS
     if [[ $NODE_ID == "2" ]]; then
         # node2 is the last node to start
+        sleep 3
         kafka-topics.sh --bootstrap-server node1:9092,node2:9092,node3:9092 --create --replication-factor 3 --partitions 1 --topic exlink
     fi
 fi

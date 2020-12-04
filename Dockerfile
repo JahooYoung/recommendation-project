@@ -5,7 +5,7 @@ LABEL Discription="Movie Recommendation Project" version="1.0"
 
 # 安装必备的软件包
 RUN yum -y install dnf yum-utils net-tools openssh-server openssh-clients \
-        which less python3 python3-devel gcc zip
+        which less python3 python3-devel gcc zip crontabs
 COPY ./configs/repos/* /etc/yum.repos.d/
 RUN yum install -y nginx mongodb-org
 RUN dnf module install -y nodejs:12
@@ -82,8 +82,8 @@ COPY ./configs/nginx.conf /etc/nginx/
 ENV PROJECT_ROOT /root/rcmd_project
 
 # 数据集等文件
-ENV DATASET ml-latest-small
-# ENV DATASET ml-25m
+# ENV DATASET ml-latest-small
+ENV DATASET ml-25m
 RUN mkdir -p $PROJECT_ROOT/data
 COPY ./datasets/$DATASET.zip /tmp/
 RUN unzip /tmp/$DATASET.zip -d $PROJECT_ROOT/data/
@@ -98,8 +98,6 @@ COPY ./requirements.txt $PROJECT_ROOT/
 # 启动脚本
 COPY ./scripts/* /usr/local/bin/
 RUN chmod +x /usr/local/bin/*.sh $HADOOP_HOME/sbin/*.sh
-
-RUN yum -y install crontabs
 
 #启动容器时执行的脚本文件
 # CMD ["/usr/sbin/sshd","-D"]
