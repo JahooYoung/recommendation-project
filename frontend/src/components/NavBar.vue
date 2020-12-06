@@ -111,7 +111,7 @@ import {
   BNavItemDropdown, BDropdownItem, BDropdownDivider, BBadge
 } from 'bootstrap-vue'
 import { mapState } from 'vuex'
-import SearchBoxLoading from './SearchBoxLoading.vue'
+// import SearchBoxLoading from './SearchBoxLoading.vue'
 // import { loadLanguageAsync } from '@/plugins/i18n'
 
 export default {

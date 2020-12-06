@@ -1,5 +1,4 @@
 import json
-from functools import partial
 from datetime import datetime
 from pyspark.sql import SparkSession
 from pyspark.streaming import StreamingContext
