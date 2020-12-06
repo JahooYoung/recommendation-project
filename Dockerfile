@@ -39,7 +39,7 @@ ENV CLASSPATH .:$JAVA_HOME/lib:$JRE_HOME/lib
 ADD ./tools/hadoop-3.2.1.tar.gz /usr/local
 ENV HADOOP_HOME /usr/local/hadoop-3.2.1
 COPY ./configs/hadoop/* $HADOOP_HOME/etc/hadoop/
-COPY ./tools/sbin/* $HADOOP_HOME/sbin/
+COPY ./scripts/sbin/* $HADOOP_HOME/sbin/
 RUN mkdir -p /data/hadoop/dfs/{data,name,journal} && \
     mkdir -p /data/hadoop/tmp && \
     mkdir -p $HADOOP_HOME/logs
